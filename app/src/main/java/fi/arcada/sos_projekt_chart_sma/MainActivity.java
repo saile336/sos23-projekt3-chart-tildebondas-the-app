@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
 
         simpleChart(temp);
 
+
+        Toast.makeText(this, "U gay kek", Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
 
         return currencyData;
     }
+
+
 
     public void simpleChart(double[] temp){
 
