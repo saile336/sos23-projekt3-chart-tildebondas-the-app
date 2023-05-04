@@ -23,7 +23,7 @@ public class Statistics {
     static double[] sma(double[] dataset, int window){
         double[] ma = new double[dataset.length-window];
 
-        for(int i = window-1; i < ma.length; i++ ) {
+        for(int i = 0; i < ma.length; i++ ) {
             double sum = 0;
             for (int j = 0; j<window; j++){
                 sum+=dataset[i-j+window];

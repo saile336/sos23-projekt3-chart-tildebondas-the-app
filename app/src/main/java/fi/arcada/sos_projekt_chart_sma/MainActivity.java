@@ -10,6 +10,7 @@ import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,42 @@ public class MainActivity extends AppCompatActivity {
 
         Toast.makeText(this, "U gay kek", Toast.LENGTH_LONG).show();
 
+// Version 2
+        // Vi skapar en ArrayList med våra datalinjer
+        ArrayList<DataLine> dataLines = new ArrayList<>();
+        dataLines.add(new DataLine(temp, "Temperatur", 0, Color.GREEN));
+        // En till datalinje med glidande medelvärde (sma)
+        double[] sma = Statistics.sma(temp, 20);
+        dataLines.add(new DataLine(sma, "SMA-20", 20, Color.RED));
+
+        // Anropa vår metod
+        betterChart(dataLines);
+
     }
+
+    // Version 2
+    // metod för att skapa linjediagram med flera linjer (dataserier som objekt)
+    public void betterChart(ArrayList<DataLine> dataLines) {
+
+        // vi behöver en till ArrayList för dataserierna
+        List<ILineDataSet> dataSeries = new ArrayList<>();
+
+        // Vi loopar våra datalinjer och sätter in varje linje i dataSeries
+        for (DataLine dataLine: dataLines) {
+            LineDataSet lineDataSet = new LineDataSet(dataLine.getEntries(), dataLine.label);
+            lineDataSet.setColor(dataLine.color);
+            lineDataSet.setDrawCircles(false);
+            lineDataSet.setDrawValues(false);
+            // Lägg till linjen till nuvarande dataserie
+            dataSeries.add(lineDataSet);
+        }
+
+        LineData lineData = new LineData(dataSeries);
+
+        chart.setData(lineData);
+        chart.invalidate();
+    }
+
 
 
     // Färdig metod som hämtar växelkursdata
