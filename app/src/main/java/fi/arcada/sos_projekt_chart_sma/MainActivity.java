@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -25,19 +27,29 @@ public class MainActivity extends AppCompatActivity {
     String[] dates = {"1.1", "2.1", "3.1", "4.1", "5.1", "6.1", "7.1", "8.1", "9.1", "10.1", "11.1", "12.1", "13.1", "14.1", "15.1", "16.1", "17.1", "18.1", "19.1", "20.1", "21.1", "22.1", "23.1", "24.1", "25.1", "26.1", "27.1", "28.1", "29.1", "30.1", "31.1", "1.2", "2.2", "3.2", "4.2", "5.2", "6.2", "7.2", "8.2", "9.2", "10.2", "11.2", "12.2", "13.2", "14.2", "15.2", "16.2", "17.2", "18.2", "19.2", "20.2", "21.2", "22.2", "23.2", "24.2", "25.2", "26.2", "27.2", "28.2", "1.3", "2.3", "3.3", "4.3", "5.3", "6.3", "7.3", "8.3", "9.3", "10.3", "11.3", "12.3", "13.3", "14.3", "15.3", "16.3", "17.3", "18.3", "19.3", "20.3"};
     LineChart chart;
     double[] currencyValuesArray;
+    TextView DateText;
+    Button SMABTN1, SMABTN2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        chart = (LineChart) findViewById(R.id.chart);
-
-        // TEMPORÄRA VÄRDEN
         currency = "SEK";
         datefrom = "2022-01-01";
         dateto = "2022-04-01";
+
+        chart = (LineChart) findViewById(R.id.chart);
+        SMABTN1 = findViewById(R.id.SMABTN1);
+        SMABTN2 = findViewById(R.id.SMABTN2);
+
+        DateText = findViewById(R.id.DateText);
+
+        DateText.setText(currency + " || " + datefrom + " - " + dateto);
+
+
+        // TEMPORÄRA VÄRDEN
+
 
         // Hämta växelkurser från API
         ArrayList<Double> currencyValues = getCurrencyValues(currency, datefrom, dateto);
