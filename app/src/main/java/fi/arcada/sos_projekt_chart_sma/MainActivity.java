@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     LineChart chart;
     double[] currencyValuesArray;
     int smaval1, smalval2;
+
+    boolean state1, state2;
     TextView DateText;
     Button SMABTN1, SMABTN2;
     FloatingActionButton settingBTN;
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         settingBTN = findViewById(R.id.settingBTN);
 
         DateText = findViewById(R.id.DateText);
+
+        state1 = false;
+        state2 = false;
 
 
         SMABTN1.setText("SMA " + smaval1);
@@ -162,36 +167,53 @@ public class MainActivity extends AppCompatActivity {
 
     public void setSMABTN1 (View view){
         ArrayList<DataLine> dataLines = new ArrayList<>();
-
-        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
-        // En till datalinje med glidande medelvärde (sma)
         double[] sma1 = Statistics.sma(currencyValuesArray, smaval1);
-        dataLines.add(new DataLine(sma1, "SMA-" + smaval1, smaval1, Color.RED));
+        double[] sma2 = Statistics.sma(currencyValuesArray, smalval2);
+        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
 
 
+        if(state1 == false){
+
+            dataLines.add(new DataLine(sma1, "SMA-" + smaval1, smaval1, Color.RED));
+
+            state1 = true;
+        }
+
+        else state1 = false;
+
+        if (state2){
+            dataLines.add(new DataLine(sma2, "SMA-" + smalval2, smalval2, Color.BLUE));
+
+        }
 
 
-        // Anropa vår metod
         betterChart(dataLines);
-
-
     }
 
     public void setSMBTN2 (View view){
-        ArrayList<DataLine> dataLines = new ArrayList<>();
 
+        ArrayList<DataLine> dataLines = new ArrayList<>();
+        double[] sma1 = Statistics.sma(currencyValuesArray, smaval1);
+        double[] sma2 = Statistics.sma(currencyValuesArray, smalval2);
         dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
 
-        double[] sma2 = Statistics.sma(currencyValuesArray, smalval2);
-        dataLines.add(new DataLine(sma2, "SMA-" + smalval2, smalval2, Color.BLUE));
+
+        if(state2 == false){
+
+            dataLines.add(new DataLine(sma2, "SMA-" + smalval2, smalval2, Color.BLUE));
+
+            state2 = true;
+        }
+
+        else state2 = false;
+
+        if (state1){
+            dataLines.add(new DataLine(sma1, "SMA-" + smaval1, smaval1, Color.RED));
+        }
+
 
         betterChart(dataLines);
-
     }
-
-
-
-
 
 }
 
