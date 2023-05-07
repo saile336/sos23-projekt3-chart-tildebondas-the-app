@@ -13,7 +13,16 @@
             app:title="Secund sma value"
             app:useSimpleSummaryProvider="true"
             android:defaultValue="20"/>
-
+        <EditTextPreference
+            app:key="datefrom"
+            app:title="Start date"
+            app:useSimpleSummaryProvider="true"
+            android:defaultValue="2022-01-01"/>
+        <EditTextPreference
+            app:key="dateto"
+            app:title="End date"
+            app:useSimpleSummaryProvider="true"
+            android:defaultValue="2022-04-01"/>
         <ListPreference
             app:defaultValue="reply"
             app:entries="@array/reply_entries"

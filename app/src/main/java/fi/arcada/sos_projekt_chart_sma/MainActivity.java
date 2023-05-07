@@ -48,10 +48,10 @@ public class MainActivity extends AppCompatActivity {
         prefEditor = sharedpref.edit();
 
 
-        smaval1 = sharedpref.getInt("sma1", 10);
-        smalval2 = sharedpref.getInt("sma2", 20);
+        smaval1 = Integer.parseInt(sharedpref.getString("sma1", "10"));
+        smalval2 = Integer.parseInt(sharedpref.getString("sma2", "20"));
 
-        currency = sharedpref.getString("currency", "SEK");
+        currency = sharedpref.getString("reply", "SEK");
         datefrom = sharedpref.getString("datefrom", "2022-01-01");
         dateto = sharedpref.getString("dateto", "2022-04-01");
 

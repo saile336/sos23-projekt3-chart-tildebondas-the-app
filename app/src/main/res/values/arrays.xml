@@ -5,7 +5,6 @@
         <item>Danish Crowns</item>
         <item>Norska Crowns</item>
         <item>British Pounds</item>
-        <item>Euro</item>
         <item>American Dollar</item>
     </string-array>
 
@@ -14,7 +13,6 @@
         <item>DKK</item>
         <item>NOK</item>
         <item>GBP</item>
-        <item>EUR</item>
         <item>USD</item>
     </string-array>
 </resources>
