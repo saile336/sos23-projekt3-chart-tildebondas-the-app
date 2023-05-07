@@ -22,16 +22,14 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     String currency, datefrom, dateto;
 
-    double[] temp  = {-4.7, -4.8, -1.8, 0.7, 0.1, -6, -7.8, -7, -3.8, -10.6, -10.3, -0.3, 4.8, 2.6, 0.1, 1.2, -1.5, -2.7, 1.8, 0.2, -2, -5.5, -1.3, 2.1, -0.6, -0.9, 1, -0.5, -1.4, -1.6, -5.3, -7.7, -8.2, -9.5, -3.9, -0.4, 1, 0.8, -0.4, 0.6, 1, -1.5, -0.5, 1.4, 1.5, 1.8, 2, 1.1, -0.1, 0.1, -0.7, -0.4, -3, -6.8, 2, 1.5, -1.3, -0.2, 1.6, 1.9, 1.3, 0.6, -2, -2.4, 0.8, -0.3, -2.5, -2.6, -0.7, 1.8, 1.3, 0.9, 3, 0.7, 0.8, 1.6, 2.5, 2, 6.2};
-    String[] dates = {"1.1", "2.1", "3.1", "4.1", "5.1", "6.1", "7.1", "8.1", "9.1", "10.1", "11.1", "12.1", "13.1", "14.1", "15.1", "16.1", "17.1", "18.1", "19.1", "20.1", "21.1", "22.1", "23.1", "24.1", "25.1", "26.1", "27.1", "28.1", "29.1", "30.1", "31.1", "1.2", "2.2", "3.2", "4.2", "5.2", "6.2", "7.2", "8.2", "9.2", "10.2", "11.2", "12.2", "13.2", "14.2", "15.2", "16.2", "17.2", "18.2", "19.2", "20.2", "21.2", "22.2", "23.2", "24.2", "25.2", "26.2", "27.2", "28.2", "1.3", "2.3", "3.3", "4.3", "5.3", "6.3", "7.3", "8.3", "9.3", "10.3", "11.3", "12.3", "13.3", "14.3", "15.3", "16.3", "17.3", "18.3", "19.3", "20.3"};
     LineChart chart;
     double[] currencyValuesArray;
+    int smaval1, smalval2;
     TextView DateText;
     Button SMABTN1, SMABTN2;
     FloatingActionButton settingBTN;
@@ -48,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         prefEditor = sharedpref.edit();
 
 
+        smaval1 = sharedpref.getInt("sma1", 10);
+        smalval2 = sharedpref.getInt("sma2", 20);
+
         currency = sharedpref.getString("currency", "SEK");
         datefrom = sharedpref.getString("datefrom", "2022-01-01");
         dateto = sharedpref.getString("dateto", "2022-04-01");
@@ -60,7 +61,8 @@ public class MainActivity extends AppCompatActivity {
         DateText = findViewById(R.id.DateText);
 
 
-
+        SMABTN1.setText("SMA " + smaval1);
+        SMABTN2.setText("SMA " + smalval2);
         DateText.setText(currency + " || " + datefrom + " - " + dateto);
 
 
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Skriv ut dem i konsolen
      //   System.out.println(currencyValues.toString());
-        System.out.println("the test values " + Arrays.toString(Statistics.movingAvg(temp, 3)));
+
 
     //    simpleChart(temp);
 
@@ -89,10 +91,10 @@ public class MainActivity extends AppCompatActivity {
         // Vi skapar en ArrayList med våra datalinjer
         ArrayList<DataLine> dataLines = new ArrayList<>();
 
-        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.GREEN));
+        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
         // En till datalinje med glidande medelvärde (sma)
-        double[] sma = Statistics.sma(currencyValuesArray, 20);
-        dataLines.add(new DataLine(sma, "SMA-20", 20, Color.RED));
+
+
 
         // Anropa vår metod
         betterChart(dataLines);
@@ -151,29 +153,40 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    public void simpleChart(double[] temp){
 
-        List<Entry>entries = new ArrayList<>();
-
-        for (int i = 0; i < temp.length; i++) {
-            entries.add(new Entry(i, (float) temp[i])); // casting the double to float
-        }
-
-        LineDataSet dataSet = new LineDataSet(entries, "Tempratures"); // add entries to dataset
-        dataSet.setColor(Color.RED);
-        dataSet.setDrawCircles(false);
-        dataSet.setDrawValues(false);
-
-        LineData lineData = new LineData(dataSet);
-        chart.setData(lineData);
-        chart.invalidate(); // refresh
-
-
-    }
 
     public void openSettings(View view){
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
+    }
+
+    public void setSMABTN1 (View view){
+        ArrayList<DataLine> dataLines = new ArrayList<>();
+
+        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
+        // En till datalinje med glidande medelvärde (sma)
+        double[] sma1 = Statistics.sma(currencyValuesArray, smaval1);
+        dataLines.add(new DataLine(sma1, "SMA-" + smaval1, smaval1, Color.RED));
+
+
+
+
+        // Anropa vår metod
+        betterChart(dataLines);
+
+
+    }
+
+    public void setSMBTN2 (View view){
+        ArrayList<DataLine> dataLines = new ArrayList<>();
+
+        dataLines.add(new DataLine(currencyValuesArray, currency, 0, Color.BLACK));
+
+        double[] sma2 = Statistics.sma(currencyValuesArray, smalval2);
+        dataLines.add(new DataLine(sma2, "SMA-" + smalval2, smalval2, Color.BLUE));
+
+        betterChart(dataLines);
+
     }
 
 
