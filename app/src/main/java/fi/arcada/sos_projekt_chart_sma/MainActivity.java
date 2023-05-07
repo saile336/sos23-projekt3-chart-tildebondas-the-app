@@ -1,9 +1,13 @@
 package fi.arcada.sos_projekt_chart_sma;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +17,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,21 +34,32 @@ public class MainActivity extends AppCompatActivity {
     double[] currencyValuesArray;
     TextView DateText;
     Button SMABTN1, SMABTN2;
+    FloatingActionButton settingBTN;
+
+    SharedPreferences sharedpref;
+    SharedPreferences.Editor prefEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currency = "SEK";
-        datefrom = "2022-01-01";
-        dateto = "2022-04-01";
+        sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
+        prefEditor = sharedpref.edit();
+
+
+        currency = sharedpref.getString("currency", "SEK");
+        datefrom = sharedpref.getString("datefrom", "2022-01-01");
+        dateto = sharedpref.getString("dateto", "2022-04-01");
 
         chart = (LineChart) findViewById(R.id.chart);
         SMABTN1 = findViewById(R.id.SMABTN1);
         SMABTN2 = findViewById(R.id.SMABTN2);
+        settingBTN = findViewById(R.id.settingBTN);
 
         DateText = findViewById(R.id.DateText);
+
+
 
         DateText.setText(currency + " || " + datefrom + " - " + dateto);
 
@@ -61,13 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
 
         // Skriv ut dem i konsolen
-        System.out.println(currencyValues.toString());
+     //   System.out.println(currencyValues.toString());
         System.out.println("the test values " + Arrays.toString(Statistics.movingAvg(temp, 3)));
 
     //    simpleChart(temp);
 
 
-        Toast.makeText(this, "U gay kek", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "kek", Toast.LENGTH_LONG).show();
 
 // Version 2
         // Vi skapar en ArrayList med våra datalinjer
@@ -153,6 +169,11 @@ public class MainActivity extends AppCompatActivity {
         chart.invalidate(); // refresh
 
 
+    }
+
+    public void openSettings(View view){
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
 
