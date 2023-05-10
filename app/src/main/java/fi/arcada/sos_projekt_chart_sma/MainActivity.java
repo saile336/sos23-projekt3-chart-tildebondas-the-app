@@ -47,9 +47,25 @@ public class MainActivity extends AppCompatActivity {
         sharedpref = PreferenceManager.getDefaultSharedPreferences(this);
         prefEditor = sharedpref.edit();
 
+        try {
+            String value1 = sharedpref.getString("sma1", "10");
+            String value2 = sharedpref.getString("sma2", "20");
 
-        smaval1 = Integer.parseInt(sharedpref.getString("sma1", "10"));
+            smaval1 = Integer.parseInt(value1);
+            smalval2 = Integer.parseInt(value2);
+
+        } catch (NumberFormatException e) {
+
+            smaval1 = 10;
+            smalval2 = 20;
+            Toast.makeText(this, "sma has been set to defult as input is not valid", Toast.LENGTH_LONG).show();
+        }
+
+
+
+     /**   smaval1 = Integer.parseInt(sharedpref.getString("sma1", "10"));
         smalval2 = Integer.parseInt(sharedpref.getString("sma2", "20"));
+      */
 
         currency = sharedpref.getString("reply", "SEK");
         datefrom = sharedpref.getString("datefrom", "2022-01-01");
